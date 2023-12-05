@@ -1,0 +1,69 @@
+omega:
+  cors:
+    allowed:
+      origins: '*'
+
+---
+
+server:
+  port: 9000
+  error:
+    include-message: always
+
+---
+
+spring-doc:
+      api-docs:
+        path: /agre-service-open-api/api-docs
+      swagger-ui:
+        filter: 'true'
+        urls-primary-name: Agre Service Open Api Swagger
+        try-it-out-enabled: 'true'
+
+---
+
+repo:
+  write:
+    api:
+      base: http://localhost:${repo.write.api.port}
+      port: 8087
+
+---
+
+resilience4j:
+  circuitbreaker:
+    default:
+      registerHealthIndicator: true
+      slidingWindowSize: 10
+      slidingWindowType: TIME_BASED
+      minimumNumberOfCalls: 5
+      permittedNumberOfCallsInHalfOpenState: 3
+      automaticTransitionFromOpenToHalfOpenEnabled: true
+      waitDurationInOpenState: 5s
+      failureRateThreshold: 50
+      eventConsumerBufferSize: 10
+      recordExceptions:
+        - org.springframework.web.client.HttpServerErrorException
+        - java.util.concurrent.TimeoutException
+        - java.io.IOException
+        - java.net.ConnectException
+    instances:
+      agreServiceCircuitBreaker:
+        registerHealthIndicator: true
+        slidingWindowSize: 10
+        slidingWindowType: TIME_BASED
+        minimumNumberOfCalls: 10
+        permittedNumberOfCallsInHalfOpenState: 3
+        waitDurationInOpenState: 5s
+        failureRateThreshold: 50
+        eventConsumerBufferSize: 10
+        recordExceptions:
+          - org.springframework.web.client.HttpServerErrorException
+          - java.util.concurrent.TimeoutException
+          - java.io.IOException
+          - com.belrose.agreservice.exception.AgreServiceException
+          - java.net.ConnectException
+    metrics:
+      enabled: true
+
+

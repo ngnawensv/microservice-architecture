@@ -1,0 +1,30 @@
+omega:
+  cors:
+    allowed:
+      origins: ${OMEGA_CORS_ALLOWED_ORIGINS:*}
+
+---
+
+server:
+  port: ${SERVER_PORT:8086}
+  error:
+    include-message: always
+
+---
+
+spring:
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: repo-service
+
+---
+
+spring-doc:
+  api-docs:
+    path: /repo-service-open-api/api-docs
+  swagger-ui:
+    filter: 'true'
+    urls-primary-name: Repo Service Open Api Swagger
+    try-it-out-enabled: 'true'

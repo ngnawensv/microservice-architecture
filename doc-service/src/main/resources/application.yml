@@ -1,0 +1,77 @@
+omega:
+  cors:
+    allowed:
+      origins: ${OMEGA_CORS_ALLOWED_ORIGINS:*}
+
+---
+
+server:
+  port: ${SERVER_PORT:8089}
+  error:
+    include-message: always
+
+---
+
+spring-doc:
+  api-docs:
+    path: /doc-open-api/api-docs
+  swagger-ui:
+    filter: 'true'
+    urls-primary-name: Doc Service Open Api Swagger
+    try-it-out-enabled: 'true'
+
+---
+
+repo:
+  write:
+    api:
+     base: ${REPO_WRITE_SERVICE_URL:http://localhost:8087}
+     uri:
+       sendToRepoUri: "/docs/docsInfo"
+       fileUri: "/file/saveFile"
+       fileGetUri: "/file/getFile"
+
+---
+spring:
+  main:
+    allow-bean-definition-overriding: true
+  servlet:
+    multipart:
+      max-file-size: 256MB
+      max-request-size: 256MB
+      enabled: true
+
+---
+  agre:
+    api:
+      base: ${AGRE_SERVICE_URL:http://localhost:8081}
+      uri:
+        agreEncodedList: "/agre/agreEncodedList"
+
+---
+
+resilience4j.circuitbreaker:
+  configs:
+    default:
+      slidingWindowType: COUNT_BASED
+      slidingWindowSize: 100
+      permittedNumberOfCallsInHalfOpenState: 10
+      waitDurationInOpenState: 10
+      failureRateThreshold: 60
+      recordExceptions:
+        - org.springframework.web.reactive.function.client.WebClientRequestException
+        - java.net.ConnectException
+        - org.springframework.web.client.HttpServerErrorException
+        - com.belrose.docservice.exception.DocsServiceException
+  instances:
+    repo-write-service:
+      baseConfig: default
+    someOtherService:
+      registerHealthIndicator: true
+      slidingWindowSize: 10
+      permittedNumberOfCallsInHalfOpenState: 3
+      slidingWindowType: TIME_BASED
+      minimumNumberOfCalls: 20
+      waitDurationInOpenState: 50s
+      failureRateThreshold: 50
+      eventConsumerBufferSize: 10

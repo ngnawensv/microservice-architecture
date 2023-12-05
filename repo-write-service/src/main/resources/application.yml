@@ -1,0 +1,30 @@
+omega:
+  cors:
+    allowed:
+      origins: ${OMEGA_CORS_ALLOWED_ORIGINS:*}
+
+---
+
+server:
+  port: ${SERVER_PORT:8087}
+  error:
+    include-message: always
+
+---
+
+spring:
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: repo-write
+
+---
+spring-doc:
+  api-docs:
+    path: /repo-write-open-api/api-docs
+  swagger-ui:
+    filter: 'true'
+    urls-primary-name: repo-write Service Open Api Swagger
+    try-it-out-enabled: 'true'
+

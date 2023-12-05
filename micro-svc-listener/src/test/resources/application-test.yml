@@ -1,0 +1,50 @@
+omega:
+  cors:
+    allowed:
+      origins: '*'
+
+---
+
+server:
+  port: "9000"
+  error:
+    include-message: always
+
+---
+
+spring-doc:
+  api-docs:
+    path: /micro-svc-listener-open-api/api-docs
+  swagger-ui:
+    filter: 'true'
+    urls-primary-name: Micro Service Listener Open Api Swagger
+    try-it-out-enabled: 'true'
+
+---
+
+repo:
+  write:
+    api:
+      base: http://localhost:${server.port}
+
+---
+
+docs:
+  api:
+    base: http://localhost:${server.port}
+    uri:
+      sendToDocs: '/docs/sendToDocs'
+
+---
+
+spring:
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: repo-write
+  servlet:
+    multipart:
+      max-file-size: 256MB
+      max-request-size: 256MB
+      enabled: true

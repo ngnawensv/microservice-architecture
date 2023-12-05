@@ -1,0 +1,46 @@
+
+apiVersion: v1
+kind: Template
+metadata:
+  name: doc-service-build-template
+  annotations:
+    description: ${APP_NAME}
+    tags: ${APP_NAME}
+objects:
+  - apiVersion: v1
+    kind: imageStream
+    metadata:
+      name: ${APP_NAME}
+      labels:
+        application: ${APP_NAME}
+  - apiVersion: v1
+    kind: BuildConfig
+    metadata:
+      creationTimestamp: null
+      labels:
+        build: ${APP_NAME}
+      name: ${APP_NAME}
+    spec:
+      failedBuildsHistoryLimit: 5
+      nodeSelector: null
+      output:
+        to:
+          kind: ImageStreamTag
+          name: ${APP_NAME}:${TAG}
+      postCommit: {}
+      resource: {}
+      runPolicy: Serial
+      source:
+        binary: {}
+        type: Binary
+      strategy:
+        dockerStrategy:
+          noCache: true
+        type: Docker
+      successfulBuildsHistoryLimit: 5
+parameters:
+  - name: APP_NAME
+    description : Application Name. To be used for the buildconfig
+  - name: TAG
+    description: TAG for the Image
+

@@ -1,0 +1,15 @@
+server:
+  port: ${SERVER_PORT:8081}
+  error:
+    include-message: always
+
+---
+
+spring-doc:
+  api-docs:
+    path: /clients-open-api/api-docs
+  swagger-ui:
+    filter: 'true'
+    urls-primary-name: Clients Service Open Api Swagger
+    try-it-out-enabled: 'true'
+

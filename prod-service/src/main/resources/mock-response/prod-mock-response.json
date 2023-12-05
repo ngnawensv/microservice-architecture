@@ -1,0 +1,8 @@
+{
+  "categoryId": "123",
+  "product": {
+    "productId": "11",
+    "name": "Name Test",
+    "description": "Description test"
+  }
+}

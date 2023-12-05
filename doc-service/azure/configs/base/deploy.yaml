@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  label:
+    run: doc-service
+  name: doc-service-deploy
+spec:
+  selector: 1
+  matchLabels:
+    run: doc-service
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        run: doc-service
+      spec:
+        containers:
+          - env:
+              - name: DT_CUSTOM_PROP
+                value: APPCODE=DOU0 ENVIRONMENT=${environment} APPLICATION=doc-service L3ORG=TBD
+              - name: IN_BOUND_URLS
+                value: inBoundUrl@azurekeyvault
+              - name : REPO_SERVICE_URL
+                valueFrom:
+                  configMapKeyRef:
+                    key: REPO_SERVICE_UR
+                    name: doc-service-cfgmap
+

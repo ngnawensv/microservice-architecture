@@ -1,0 +1,101 @@
+spring:
+  application:
+    name: AGRE-SERVICE
+---
+omega:
+  cors:
+    allowed:
+      origins: ${OMEGA_CORS_ALLOWED_ORIGINS:*}
+
+---
+
+server:
+  port: ${SERVER_PORT:8081}
+  error:
+    include-message: always
+
+---
+
+spring-doc:
+      api-docs:
+        path: /agre-service-open-api/api-docs
+      swagger-ui:
+        filter: 'true'
+        urls-primary-name: Agre Service Open Api Swagger
+        try-it-out-enabled: 'true'
+
+---
+
+repo:
+  write:
+    api:
+      base: ${REPO_WRITE_SERVICE_URL:http://localhost}:${repo.write.api.port}
+      port: 8087
+
+---
+#Actuator endpoints for Circuit Breaker
+management:
+  health:
+    circuitbreakers:
+      enable: true
+  endpoint:
+    health:
+      enabled: true
+      show-details: always
+  endpoints:
+    web:
+      exposure:
+        include: health,info,beans,env
+
+---
+#Circuit Breaker configuration
+#Docs: https://resilience4j.readme.io/docs/circuitbreaker
+resilience4j:
+circuitbreaker:
+    configs:
+      default:
+        registerHealthIndicator: true
+        failureRateThreshold: 50
+        automaticTransitionFromOpenToHalfOpenEnabled: true
+        slidingWindowSize: 10
+        slidingWindowType: COUNT_BASED
+        minimumNumberOfCalls: 10
+        permittedNumberOfCallsInHalfOpenState: 3
+        waitDurationInOpenState: 5s
+        eventConsumerBuffers-size: 10
+        recordExceptions:
+          - org.springframework.web.client.HttpServerErrorException
+          - org.springframework.web.reactive.function.client.WebClientRequestException
+          - java.util.concurrent.TimeoutException
+          - java.io.IOException
+          - java.net.ConnectException
+    instances:
+      AGRE-SERVICE:
+        registerHealthIndicator: true
+        failureRateThreshold: 50
+        automaticTransitionFromOpenToHalfOpenEnabled: true
+        slidingWindowSize: 10
+        slidingWindowType: COUNT_BASED
+        minimumNumberOfCalls: 10
+        permittedNumberOfCallsInHalfOpenState: 3
+        waitDurationInOpenState: 5s
+        eventConsumerBuffers-size: 10
+        recordExceptions:
+          - org.springframework.web.client.HttpServerErrorException
+          - java.util.concurrent.TimeoutException
+          - java.io.IOException
+          - com.belrose.agreservice.exception.AgreServiceException
+          - java.net.ConnectException
+          - org.springframework.web.reactive.function.client.WebClientRequestException
+    metrics:
+      enabled: true
+
+---
+#Retry configuration
+resilience4j:
+  retry:
+    instances:
+      AGRE-SERVICE:
+        registerHealthIndicator: true
+        maxRetryAttempts: 5
+        waitDuration: 5s

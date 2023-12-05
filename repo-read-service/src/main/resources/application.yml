@@ -1,0 +1,29 @@
+omega:
+  cors:
+    allowed:
+      origins: ${OMEGA_CORS_ALLOWED_ORIGINS:*}
+
+---
+
+server:
+  port: ${SERVER_PORT:8085}
+  error:
+    include-message: always
+
+---
+
+spring:
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: repo-read
+---
+
+spring-doc:
+  api-docs:
+    path: /repo-read-open-api/api-docs
+  swagger-ui:
+    filter: 'true'
+    urls-primary-name: Repo Read Service Open Api Swagger
+    try-it-out-enabled: 'true'

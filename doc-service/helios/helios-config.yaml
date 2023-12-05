@@ -1,0 +1,28 @@
+version: 1
+language: java17
+platform: azure
+agent: maven38
+pipeline_type: low-touch
+
+build_command: mvn
+
+test_commands:
+  -mvn
+
+pom: ./pom.xml
+
+release_branches:
+  - master
+
+aqua_parameters:
+  artifactory_location:
+
+analysis:
+  sonar_qube:
+    project_id: doc-service
+    minimum_coverage: 0
+    minimum_test_success_density: 0
+  nexus_iq:
+    application_id: doc-service
+    enable_auto_prs: false
+    default_branch: "master"

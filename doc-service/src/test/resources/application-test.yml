@@ -1,0 +1,34 @@
+app:
+    port: 9003
+
+---
+
+omega:
+  cors:
+    allowed:
+      origins: '*'
+
+---
+
+spring-doc:
+  api-docs:
+    path: /doc-open-api/api-docs
+  swagger-ui:
+    filter: 'true'
+    urls-primary-name: Doc Service Open Api Swagger
+    try-it-out-enabled: 'true'
+
+---
+
+repo:
+  write:
+    api:
+      base: http://localhost:${app.port}
+      uri:
+        sendToRepoUri: "/docs/docsInfo"
+
+
+---
+spring:
+  main:
+    allow-bean-definition-overriding: true

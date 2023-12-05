@@ -1,0 +1,45 @@
+omega:
+  cors:
+    allowed:
+      origins: ${OMEGA_CORS_ALLOWED_ORIGINS:*}
+---
+repo:
+  api:
+    url:
+      base: ${REPO_SERVICE_URL:http://localhost:8080}
+---
+
+server:
+  port: ${SERVER_PORT:8084}
+  error:
+    include-message: always
+
+---
+
+spring-doc:
+  api-docs:
+    path: /prod-open-api/api-docs
+  swagger-ui:
+    filter: 'true'
+    urls-primary-name: Prod Service Open Api Swagger
+    try-it-out-enabled: 'true'
+
+---
+spring:
+  jackson:
+    serialisation:
+      indent_output: true
+  servlet:
+    multipart:
+      enabled: true
+      location: ${java.io.tmpdir}
+      max-file-size: 256MB
+      max-request-size: 256MB
+  application:
+    name: prod-service
+
+---
+logging:
+  level:
+    ROOT: INFO
+    omega.prod.service.*: ${APPLICATION_LOGGING_LEVEL:DEBUG}

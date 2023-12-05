@@ -1,0 +1,9 @@
+{
+  "id": null,
+  "eventId": "Agre",
+  "module": "Agre",
+  "action": "Agre",
+  "data": "Agre:/n{\"agreId\":\"65659b595faa0740d6dd3503\",\"type\":\"Non numeric\",\"version\":\"v1\",\"name\":\"Agre\",\"addressList\":[{\"phoneNumber\":\"4388783337\",\"email\":\"graceRaissa@gmail.com\",\"home\":null}],\"locationList\":[{\"road\":\"6175 rue albanie\",\"city\":\"Brossard\",\"country\":\"Canada\"}],\"actionDetails\":{\"creationDate\":\"nov. 28, 2023\",\"agreTransaction\":\"c235a481-0444-4a21-a2d7-e511383c63f9\",\"timestamp\":null}}/nTriggerEvent: /n {\"eventName\":\"Agre\",\"eventState\":\"Ok\",\"agreTransaction\":\"c235a481-0444-4a21-a2d7-e511383c63f9\",\"timestamp\":1701232967}",
+  "user": "SVN",
+  "date": "2023-11-29T04:42:47.000Z"
+}
