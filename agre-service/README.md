@@ -2,7 +2,7 @@
 ## Problem solved by Circuit Breaker pattern
 ### Context
 1. Considering 1 Client **C** and  4 microservices **M1**, **M2**,**M3** and **M4**;  
-2. Assume that **C** call , **M1** call **M2**, **M2** call **M3** and **M3** call **M4**;  
+2. Assume that **C** call **M1** , **M1** call **M2**, **M2** call **M3** and **M3** call **M4**;  
 3.  When Client call M1, M1 called M2 internally, M2 call M3 and M3 call M4;  
 4.  For any raison , assume the M4 is down then M3,M2 and M1 won't work properly;  
 5. If M4 is slow then M3,M2 and M1 will be infected or impacted
